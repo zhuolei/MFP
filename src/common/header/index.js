@@ -13,9 +13,6 @@ class Header extends Component {
         return (
             <HeaderWrapper>
                 <Logo>FMP</Logo>
-                <Nav>
-                    <NavItem className='right'>Login</NavItem>
-                </Nav>
                 <Addition>
                     <Button className='reg'>Register</Button>
                 </Addition>

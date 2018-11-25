@@ -10,7 +10,6 @@ export const Logo = styled.a.attrs({
     href: '/'
 })`
     position: absolute;
-    top: 8px;
     left: 20px;
     display: block;
     width: 100px;
@@ -20,10 +19,11 @@ export const Logo = styled.a.attrs({
     text-decoration: none;
     out-line: none;
     color: black;
+    
 `
 
 export const Nav = styled.div`
-    width: 960px;
+    width: 800px;
     height: 100%;
     padding-right: 40px;
     box-sizing: border-box;
