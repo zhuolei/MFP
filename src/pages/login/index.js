@@ -18,7 +18,7 @@ class FormLogin extends React.Component{
         const { getFieldDecorator } = this.props.form;
         return (
             <FormWrapper >
-                <Card title="登录水平表单" style={{marginTop:10}}>
+                <Card title="Log in" style={{marginTop:10}}>
                     <Form style={{width:200}}>
                         <FormItem>
                             {

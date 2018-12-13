@@ -6,12 +6,9 @@ import NormalLoginForm from './pages/login';
 class App extends Component {
   render() {
     return (
-      <React.Fragment>
-      <Header />
-      <div style={{float: 'right'}}>
-      <NormalLoginForm />
+      <div>
+        {this.props.children}
       </div>
-      </React.Fragment>
     );
   }
 }

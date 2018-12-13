@@ -3,12 +3,13 @@ import styled from 'styled-components';
 export const HeaderWrapper = styled.div`
     height: 65px;
     border-bottom: 1px solid #f0f0f0;
-    background: #f7f7f7;
+    background: #002140;
 `
 
 export const Logo = styled.a.attrs({
     href: '/'
-})`
+})` 
+    
     position: absolute;
     left: 20px;
     display: block;
@@ -18,7 +19,7 @@ export const Logo = styled.a.attrs({
     font-family: Georgia;
     text-decoration: none;
     out-line: none;
-    color: black;
+    color: white;
     
 `
 
@@ -51,8 +52,8 @@ export const Button = styled.div`
     padding: 0 20px;
     line-height: 38px;
     border-radius: 19px;
-    border: 1px solid black;
+    border: 1px solid white;
     &.reg {
-        color: black;
+        color: white;
     }
 `
