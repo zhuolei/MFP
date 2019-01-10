@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Form,Input, Upload, Icon, Button, Modal, Card} from 'antd';
+import ProjectList from "./worklist";
 import 'antd/dist/antd.css';
-import axios from '../../axios';
+
 const FormItem = Form.Item
 class Project extends Component{
 	state = {
@@ -43,7 +44,7 @@ class Project extends Component{
                 >
                     <CreateTeamForm wrappedComponentRef={(inst)=>{this.cityForm = inst;}}/>
                 </Modal>
-				
+				<ProjectList></ProjectList>
 			</div>
 		);
 	}

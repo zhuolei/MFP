@@ -1,17 +1,49 @@
 import React from "react";
+import { connect } from 'react-redux';
+import {login} from '../../redux/action/auth.action'
 import { Card, Form, Input, Button, message, Icon, Checkbox } from "antd";
 import 'antd/dist/antd.css';
 import {FormWrapper} from './style';
+import axios from 'axios';
 const FormItem = Form.Item;
 class FormLogin extends React.Component{
-
+    
     handleSubmit = ()=>{
-        let userInfo = this.props.form.getFieldsValue();
-        this.props.form.validateFields((err,values)=>{
-            if(!err){
-                message.success(`${userInfo.userName} 恭喜你，您通过本次表单组件学习，当前密码为：${userInfo.userPwd}`)
+        const user = this.props.form.getFieldsValue();
+        console.log(user)
+        console.log(this.props)
+        // this.props.form.validateFields((err,values)=>{
+        //     if(!err){
+        //         message.success(`${userInfo.userName} password :${userInfo.userPwd}`)
+        //     }
+        // })
+
+        // axios({
+        //     url:'http://localhost:3031/users',
+        //     method: 'get',
+        //   }).then((res) => {
+        //     const person = res.data
+        //     console.log(typeof(person[0].password));
+        //     console.log(typeof(logValue.userPwd));
+        //     if (person[0].userName === logValue.userName && person[0].password === parseInt(logValue.userPwd)){
+        //         message.success('login Success');
+        //         window.location.href = `/#/admin`;
+        //     }else if(person[0].userName !== logValue.userName){
+        //         message.error('wrong userName');
+        //     }else if(person[0].password !== logValue.userPwd){
+        //         message.error('wrong password');
+        //     }
+              
+        //   }, (res) =>{
+        //     console.log(res);
+        //     message.error('error');
+        //   } )
+        this.props.login(user, (res) => {
+            console.log(res)
+            if (res.data.success) {
+                this.props.history.push('/#/admin');
             }
-        })
+        });
     }
 
     render(){
@@ -19,7 +51,7 @@ class FormLogin extends React.Component{
         return (
             <FormWrapper >
                 <Card title="Log in" style={{marginTop:10}}>
-                    <Form style={{width:200}}>
+                    <Form style={{width:230}}>
                         <FormItem>
                             {
                                 getFieldDecorator('userName',{
@@ -27,19 +59,19 @@ class FormLogin extends React.Component{
                                     rules:[
                                         {
                                             required:true,
-                                            message:'用户名不能为空'
+                                            message:'username cannot be null'
                                         },
                                         {
-                                            min:5,max:10,
-                                            message:'长度不在范围内'
+                                            // min:5,max:10,
+                                            message:'length is not long enough'
                                         },
                                         {
                                             pattern:new RegExp('^\\w+$','g'),
-                                            message:'用户名必须为字母或者数字'
+                                            message:'username must be letter and num'
                                         }
                                     ]
                                 })(
-                                    <Input prefix={<Icon type="user"/>} placeholder="请输入用户名" />
+                                    <Input prefix={<Icon type="user"/>} placeholder="Please input username" />
                                 )
                             }
                         </FormItem>
@@ -47,9 +79,18 @@ class FormLogin extends React.Component{
                             {
                                 getFieldDecorator('userPwd', {
                                     initialValue: '',
-                                    rules: []
+                                    rules: [
+                                        {
+                                            required:true,
+                                            message:'password cannot be null'
+                                        },
+                                        {
+                                            // min:5,max:10,
+                                            message:'length is not long enough'
+                                        },
+                                    ]
                                 })(
-                                    <Input prefix={<Icon type="lock" />} type="password" placeholder="请输入密码" />
+                                    <Input prefix={<Icon type="lock" />} type="password" placeholder="Please input password" />
                                 )
                             }
                         </FormItem>
@@ -59,13 +100,13 @@ class FormLogin extends React.Component{
                                     valuePropName:'checked',
                                     initialValue: true
                                 })(
-                                    <Checkbox>记住密码</Checkbox>
+                                    <Checkbox>Remember</Checkbox>
                                 )
                             }
-                            <a href="#" style={{float:'right'}}>忘记密码</a>
+                            <a href="#" style={{float:'right'}}>Forget Password</a>
                         </FormItem>
                         <FormItem>
-                            <Button type="primary" onClick={this.handleSubmit}>登录</Button>
+                            <Button type="primary" onClick={this.handleSubmit}>Login</Button>
                         </FormItem>
                     </Form>
                 </Card>
@@ -73,4 +114,11 @@ class FormLogin extends React.Component{
         );
     }
 }
-export default Form.create()(FormLogin);
+const finalFormLogin = Form.create()(FormLogin);
+const mapDispathToProps = (dispatch) => {
+    return {
+        login:() => dispatch(login())
+    }
+}
+const mapStateToProps = () => {}
+export default connect(null, mapDispathToProps)(finalFormLogin);

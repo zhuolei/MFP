@@ -1,9 +1,10 @@
 import React,{ Component } from 'react';
-import { Row,Col } from "antd"
+import { Row,Col } from "antd";
+import { connect } from 'react-redux';
 import './index.less'
 import Util from '../../utils/utils'
 
-export default class InnerHeader extends Component{
+class InnerHeader extends Component{
     state={};
     componentWillMount(){
         this.setState({
@@ -26,7 +27,9 @@ export default class InnerHeader extends Component{
                     </Col>
                 </Row>
                 <Row className="breadcrumb">
-                    <Col span="4" className="breadcrumb-title">Main</Col>
+                    <Col span="4" className="breadcrumb-title">
+                        {this.props.menuName}
+                    </Col>
                     <Col span="20" className="weather">
                         <span className="date">{this.state.sysTime}</span>
                     </Col>
@@ -35,3 +38,10 @@ export default class InnerHeader extends Component{
         )
     }
 }
+const mapStateToProps = state => {
+    console.log(state.switchMenu)
+    return {
+        menuName: state.switchMenu.menuName
+    }
+}
+export default connect(mapStateToProps)(InnerHeader);

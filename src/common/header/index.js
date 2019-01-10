@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Upload, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Modal} from 'antd';
+import { Form, Input, Upload, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Modal, message} from 'antd';
 import {
     HeaderWrapper, 
     Logo,
@@ -7,6 +7,8 @@ import {
     NavItem,
     Addition,
 } from './style';
+import axios from 'axios';
+import qs from 'qs';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -102,14 +104,14 @@ const RegisterForm = Form.create()(
       };
 
       // 手机号区号
-      const prefixSelector = getFieldDecorator('prefix', {
-        initialValue: '86',
-      })(
-        <Select style={{ width: 70 }}>
-          <Option value="86">+86</Option>
-          <Option value="87">+87</Option>
-        </Select>
-      );
+      // const prefixSelector = getFieldDecorator('prefix', {
+      //   initialValue: '86',
+      // })(
+      //   <Select style={{ width: 70 }}>
+      //     <Option value="86">+86</Option>
+      //     <Option value="87">+87</Option>
+      //   </Select>
+      // );
       return (
         <Modal
           visible={visible}
@@ -123,7 +125,7 @@ const RegisterForm = Form.create()(
                {...formItemLayout}
               label="username:"
             >
-              {getFieldDecorator('userName', {
+              {getFieldDecorator('username', {
                 rules: [{ required: true, message: 'Please input the username' }],
               })(
                 <Input />
@@ -161,7 +163,7 @@ const RegisterForm = Form.create()(
               {...formItemLayout}
               label="Confirm Password:"
             >
-              {getFieldDecorator('confirm', {
+              {getFieldDecorator('confirmpassword', {
                 rules: [{
                   required: true, message: 'Please confirm your password!',
                 }, {
@@ -175,17 +177,18 @@ const RegisterForm = Form.create()(
               {...formItemLayout}
               label="Phone Number:"
             >
-              {getFieldDecorator('phone', {
+              {getFieldDecorator('phonenumber', {
                 rules: [{ required: true, message: 'Please input your phone number!' }],
               })(
-                <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+                //addonBefore={prefixSelector}
+                <Input style={{ width: '100%' }} />
               )}
             </FormItem>
             <FormItem
               {...formItemLayout}
               label="Picture:"
             >
-              {getFieldDecorator('userImg')(
+              {getFieldDecorator('userimg')(
                 <Upload
                   className="avatar-uploader"
                   listType="picture-card"
@@ -209,37 +212,86 @@ class Header extends Component {
       };
     //打开界面
     showModal = () => {
-    this.setState({ visible: true });
+      this.setState({ visible: true });
     }
 
     handleCancel = () => {
-    this.setState({ visible: false });
+      this.setState({ visible: false });
     }
+    // 发送请求
+    // request = () => {
+    //   let baseUrl = 'http://localhost:3030';
+    //   axios.post(baseUrl + '/users').then((res) => {
+    //     console.log(res);
+    //   })
+    // }
     // 创建表单
     handleCreate = () => {
-    const form = this.formRef.props.form;
-    form.validateFieldsAndScroll((err, values) => {
-        if (err) {
-        return;
-        }
+      const form = this.formRef.props.form;
+      const regValue = this.formRef.props.form.getFieldsValue();
+      console.log(regValue);
+      
+      form.validateFieldsAndScroll((err, values) => {
+          if (err) {
+          return;
+          }
 
-        console.log('Received values of form: ', values);
-        form.resetFields();
-        this.setState({ visible: false });
-    });
+          // console.log('Received values of form: ', values);
+          form.resetFields();
+          this.setState({ visible: false });
+      });
+      axios.post(`http://localhost:8080/users/register`,regValue, {withCredentials: true})
+          .then((response) => {
+            console.log(response)
+            message.success('Register Success');
+            this.setState({
+              visible: false
+            })
+        }, (response) =>{
+          console.log(response);
+          message.error('error');
+        } )
+      // axios({
+      //   url:'http://localhost:8080/users/register',
+      //   method: 'post',
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   },
+      //   data:JSON.stringify(regValue),
+      //   dataType: "json"
+      // }).then((response) => {
+      //     console.log(response)
+      //     message.success('Register Success');
+      //     this.setState({
+      //       visible: false
+      //     })
+      // }, (response) =>{
+      //   console.log(response);
+      //   message.error('error');
+      // } )
+      // this.request();
+      // console.log(regValue);
     }
 
     saveFormRef = (formRef) => {
-    this.formRef = formRef;
+      this.formRef = formRef;
     }
+
     render() {
         return (
             <HeaderWrapper>
-                <Logo>FMP</Logo>
-                <Addition>
-                    <Button style={{float: "right",
+                <Logo>PMP</Logo>
+                <Addition style={{marginTop: 'auto',
+                                  marginBottom: 'auto',
+                                  height: '65px', 
+                                  }}>
+                    <Button style={{     
+                                    float: "right",
                                     height: "40px",
-                                    marginTop: "19px",
+                                    top:'20%',
+                                    // marginTop: 'auto',
+                                    // marginBottom: 'auto',
+                                    // marginTop: "14px",
                                     marginRight: "40px",
                                     padding: "0 20px",
                                     lineHeight: "38px",

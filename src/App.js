@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Header from './common/header';
-import NormalLoginForm from './pages/login';
-
+// import logo from './logo.svg';
 
 class App extends Component {
   render() {

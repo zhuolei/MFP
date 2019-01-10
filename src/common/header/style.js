@@ -7,7 +7,7 @@ export const HeaderWrapper = styled.div`
 `
 
 export const Logo = styled.a.attrs({
-    href: '/'
+    href: '/#/login'
 })` 
     
     position: absolute;
@@ -42,7 +42,8 @@ export const NavItem = styled.div`
 export const Addition = styled.div`
     position: absolute;
     right: 0;
-    top: 0;
+    margin-top: auto;
+    margin-bottom: auto;
     height: 65px: 
 `
 export const Button = styled.div`
