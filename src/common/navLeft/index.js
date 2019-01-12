@@ -8,7 +8,13 @@ import './index.less'
 const SubMenu = Menu.SubMenu;
 class NavLeft extends React.Component {
     state = {
-        currentKey:''
+        currentKey:'',
+        collapsed: false,
+    }
+    toggleCollapsed = () => {
+        this.setState({
+          collapsed: !this.state.collapsed,
+        });
     }
     handleClick = ({item, key}) => {
         const { dispatch } = this.props;
@@ -31,13 +37,24 @@ class NavLeft extends React.Component {
         return data.map((item)=>{
             if(item.children){
                 return (
-                    <SubMenu title={item.title} key={item.key}>
+                   
+                    <SubMenu title={item.type ? (
+                        <span>
+                          <Icon type={item.type} />
+                          <span>{item.title}</span>
+                        </span>
+                      ) : (
+                        item.title
+                      )} key={item.key}>
+                        
                         { this.renderMenu(item.children)}
                     </SubMenu>
                 )
             }
             return <Menu.Item title={item.title} key={item.key}>
+                {/* <Icon type="user" /> */}
                 <NavLink to={item.key}>
+                    <Icon type={item.type} />
                     {item.title}
                 </NavLink>
             </Menu.Item>
@@ -45,7 +62,8 @@ class NavLeft extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div
+                >
                 <div className="logo">
                     <img src="/assets/logo-ant.svg" alt=""/>
                     <h1>PMP</h1>
@@ -53,7 +71,10 @@ class NavLeft extends React.Component {
                 <Menu
                     onClick = {this.handleClick}
                     selectedKeys={[this.state.currentKey]}
+                    mode="inline"
                     theme='dark'
+                    inlineCollapsed={this.state.collapsed}
+                    
                 >
                     { this.state.menuTreeNode }
                 </Menu>

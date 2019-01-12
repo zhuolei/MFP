@@ -11,13 +11,14 @@ export default class Admin extends Component{
     render(){
         return(
             <Row className="container">
-                <Col span="3" className="nav-left">
+                <Col span="5" className="nav-left">
                     <NavLeft/>
                 </Col>
-                <Col span="21" className="main">
+                <Col span="19" className="main">
                     <InnerHeader/>
                     <Row className="content">
-                        {this.props.children}
+                    {/* 用在router里 */}
+                    {this.props.children}
                     </Row>
                     <Footer/>
                 </Col>

@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import { Row,Col } from "antd";
+import { Row, Col, Button, Icon } from "antd";
 import { connect } from 'react-redux';
 import './index.less'
 import Util from '../../utils/utils'
@@ -22,8 +22,13 @@ class InnerHeader extends Component{
             <div className="header">
                 <Row className="header-top">
                     <Col span="24">
+                        <Button type="default" onClick={this.toggleCollapsed} style={{ marginBottom: 16, border:  'none'}}>
+                            <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
+                        </Button>
+                        <span className="wrapper">
                             <span>Welcome，{this.state.userName}</span>
                             <a href="#">Log out</a>
+                        </span>
                     </Col>
                 </Row>
                 <Row className="breadcrumb">

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Form,Input, Upload, Icon, Button, Modal, Card} from 'antd';
-import ProjectList from "./worklist";
+import FinalProjectList from "./worklist";
 import 'antd/dist/antd.css';
 
 const FormItem = Form.Item
-class Project extends Component{
+class AllProjects extends Component{
 	state = {
 		teams:[],
 		isShowCreateTeam: false
@@ -28,7 +28,9 @@ class Project extends Component{
 
 		return (
 			<div>
-				<Card>
+				<Card
+					bordered={false}
+					>
 				<Button type="primary" onClick={this.handleCreateTeam}>Create Team</Button>
 				{teamsList}
 				</Card>
@@ -44,7 +46,7 @@ class Project extends Component{
                 >
                     <CreateTeamForm wrappedComponentRef={(inst)=>{this.cityForm = inst;}}/>
                 </Modal>
-				<ProjectList></ProjectList>
+				<FinalProjectList></FinalProjectList> 
 			</div>
 		);
 	}
@@ -67,4 +69,4 @@ class CreateTeamForm extends Component{
 	}
 }
 CreateTeamForm = Form.create({})(CreateTeamForm);
-export default Project;
+export default AllProjects;

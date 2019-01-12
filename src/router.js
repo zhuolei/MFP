@@ -7,7 +7,8 @@ import Buttons from './pages/ui/buttons';
 import NoMatch from './pages/nomatch';
 import Home from './pages/home';
 import Finish from './pages/finish';
-import Project from './pages/inprocess';
+import AllProjects from './pages/project';
+import Team from './pages/team';
 export default class IRouter extends Component{
 
     render(){
@@ -15,13 +16,14 @@ export default class IRouter extends Component{
             <HashRouter>
                 <App>
                     <Route path="/login" component={Login}></Route>
-                    <Route path="/admin" render={()=>
+                    <Route path="/" render={()=>
                         <Admin>
                             <Switch>
-                                <Route path="/admin/home" component={Home} />
-                                <Route path="/admin/ui/buttons" component={Buttons}></Route>
-                                <Route path="/admin/finish" component={Finish} />
-                                <Route path="/admin/project" component={Project} />
+                                <Route path="/home" component={Home} />
+                                <Route path="/finish" component={Finish} />
+                                <Route path="/project/allteams" component={Team}/>
+                                <Route path="/project/team1" component={AllProjects} />
+                                {/* <Route path="/admin/team2" component={Project} /> */}
                                 <Route component={NoMatch}></Route>
                             </Switch>
                         </Admin>

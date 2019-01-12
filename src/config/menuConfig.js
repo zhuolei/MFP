@@ -1,25 +1,32 @@
 const menuList = [
     {
         title:'Profile',
-        key:'/admin/home'
+        key:'/home',
+        type: 'profile',
     },
     {
-        title:'In Process',
-        key:'/admin/project',
-        btnList:[
+        title:'Project',
+        key:'/project',
+        type: 'project',
+        children:[
             {
-                title:'订单详情',
-                key:'detail'
+                title:'Teams',
+                key:'/project/allteams'
             },
             {
-                title:'结束订单',
-                key:'finish'
+                title:'Team1',
+                key:'/project/team1'
+            },
+            {
+                title:'Team2',
+                key:'/project/team2'
             }
         ]
     },
     {
-        title:'Finish',
-        key:'/admin/finish'
+        title:'Account',
+        key:'/admin/finish',
+        type: 'user',
     },
     
     
