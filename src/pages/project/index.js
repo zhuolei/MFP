@@ -28,7 +28,7 @@ class AllProjects extends Component{
 
 		return (
 			<div>
-				<Card
+				{/* <Card
 					bordered={false}
 					>
 				<Button type="primary" onClick={this.handleCreateTeam}>Create Team</Button>
@@ -45,7 +45,7 @@ class AllProjects extends Component{
                     onOk={this.handleSubmit}
                 >
                     <CreateTeamForm wrappedComponentRef={(inst)=>{this.cityForm = inst;}}/>
-                </Modal>
+                </Modal> */}
 				<FinalProjectList></FinalProjectList> 
 			</div>
 		);

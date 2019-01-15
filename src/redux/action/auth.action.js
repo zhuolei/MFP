@@ -1,13 +1,45 @@
 import axios from 'axios';
 import qs from 'qs';
-
-const API_URL = process.env.PMP_API_URL;
+// import { dispatch } from 'rxjs/internal/observable/range';
+import {API_URL} from '../../common/statics/commonurl';
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const REGISTER = 'REGISTER';
+export const SET_CURRENT_USER= 'SET_CURRENT_USER';
 
+export function register(newUser, callback) {
+  // try {
+  //   axios.post(`${API_URL}/users/register`, newUser);
+  //   // history.push("/login");
+  //   dispatch({
+  //     type: register,
+  //     payload: {}
+  //   });
+  // } catch (err) {
+  //   dispatch({
+  //     // type: GET_ERRORS,
+  //     // payload: err.response.data
+  //     payload: err
+  //   });
+  // }
+  const promise = axios.post(`${API_URL}/users/register`, newUser)
+    .then(res => {
+      callback(res);
+      console.log(res)
+      return res;
+    });
+  return {
+    type: REGISTER,
+    payload: promise
+  }
+}
+export const setCurrentUser = (user) => ({
+  type: SET_CURRENT_USER,
+  value: user
+})
 export function login(user, callback) {
-  const promise = axios.post(`${API_URL}/users/login`, user, {withCredentials: true})
+  const promise = axios.post(`${API_URL}/users/login`, qs.stringify(user), {withCredentials: true})
     .then(res => {
       callback(res);
       return res;

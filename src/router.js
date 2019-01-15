@@ -9,6 +9,7 @@ import Home from './pages/home';
 import Finish from './pages/finish';
 import AllProjects from './pages/project';
 import Team from './pages/team';
+import Basic from './pages/account/BaseView';
 export default class IRouter extends Component{
 
     render(){
@@ -16,14 +17,14 @@ export default class IRouter extends Component{
             <HashRouter>
                 <App>
                     <Route path="/login" component={Login}></Route>
-                    <Route path="/" render={()=>
+                    <Route path="/admin" render={()=>
                         <Admin>
                             <Switch>
-                                <Route path="/home" component={Home} />
-                                <Route path="/finish" component={Finish} />
-                                <Route path="/project/allteams" component={Team}/>
-                                <Route path="/project/team1" component={AllProjects} />
+                                <Route path="/admin/home" component={Home} />
+                                <Route path="/admin/project/allteams" component={Team}/>
+                                <Route path="/admin/project/team1" component={AllProjects} />
                                 {/* <Route path="/admin/team2" component={Project} /> */}
+                                <Route path="/admin/account/basic" component={Basic} />
                                 <Route component={NoMatch}></Route>
                             </Switch>
                         </Admin>

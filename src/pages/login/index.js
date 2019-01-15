@@ -4,7 +4,6 @@ import {login} from '../../redux/action/auth.action'
 import { Card, Form, Input, Button, message, Icon, Checkbox } from "antd";
 import 'antd/dist/antd.css';
 import {FormWrapper} from './style';
-import axios from 'axios';
 const FormItem = Form.Item;
 class FormLogin extends React.Component{
     
@@ -41,20 +40,23 @@ class FormLogin extends React.Component{
         this.props.login(user, (res) => {
             console.log(res)
             if (res.data.success) {
-                this.props.history.push('/#/admin');
+                // this.props.history.push('/#/admin/home');
+                window.location.href = '/#/admin/home'
+            } else if (!res.data.success) {
+                message.error('username or password is wrong')
             }
-        });
+        })
     }
 
     render(){
         const { getFieldDecorator } = this.props.form;
         return (
-            <FormWrapper >
-                <Card title="Log in" style={{marginTop:10}}>
-                    <Form style={{width:230}}>
+            <FormWrapper>
+                <Card title="Log in" style={{marginTop:20}}>
+                    <Form style={{width:300}}>
                         <FormItem>
                             {
-                                getFieldDecorator('userName',{
+                                getFieldDecorator('username',{
                                     initialValue:'',
                                     rules:[
                                         {
@@ -77,7 +79,7 @@ class FormLogin extends React.Component{
                         </FormItem>
                         <FormItem>
                             {
-                                getFieldDecorator('userPwd', {
+                                getFieldDecorator('password', {
                                     initialValue: '',
                                     rules: [
                                         {
@@ -105,8 +107,8 @@ class FormLogin extends React.Component{
                             }
                             <a href="#" style={{float:'right'}}>Forget Password</a>
                         </FormItem>
-                        <FormItem>
-                            <Button type="primary" onClick={this.handleSubmit}>Login</Button>
+                        <FormItem >
+                            <Button style={{width:'100%'}} type="primary" onClick={this.handleSubmit}>Login</Button>
                         </FormItem>
                     </Form>
                 </Card>
@@ -115,10 +117,5 @@ class FormLogin extends React.Component{
     }
 }
 const finalFormLogin = Form.create()(FormLogin);
-const mapDispathToProps = (dispatch) => {
-    return {
-        login:() => dispatch(login())
-    }
-}
-const mapStateToProps = () => {}
-export default connect(null, mapDispathToProps)(finalFormLogin);
+
+export default connect(null, {login})(finalFormLogin);

@@ -1,19 +1,30 @@
-import {LOGIN, LOGOUT} from '../actions/auth.action';
+import {LOGIN, LOGOUT, SET_CURRENT_USER} from '../action/auth.action';
+// import { REGISTER } from '../action/auth.action';
 
 export default function (state = null, action) {
   let res;
   switch (action.type) {
+    // case SET_CURRENT_USER:
+    //   res = action.value;
+    //   console.log(res)
     case LOGIN:
       res = action.payload.data;
-      if (res.success) {
+      // res.then(data=>{
+      //   console.log(data)
+      //   return data
+      // }, (data) => {
+      //   return data
+      // })
+      console.log(res)
+      if (res && res.success) {
         return res.user;
       } else {
-        return null;
+        return state;
       }
     case LOGOUT:
       res = action.payload.data;
       if (res.success) {
-        return null;
+        return state;
       } else {
         return state;
       }

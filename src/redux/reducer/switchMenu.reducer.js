@@ -1,7 +1,9 @@
 
 import { type } from '../action/switchMenu.action'
 const initialState = {
-    menuName:'Profile'
+    menuName:'Profile',
+    navCol: 5,
+    mainCol: 19
 }
 
 export default (state = initialState, action)=>{
@@ -11,7 +13,12 @@ export default (state = initialState, action)=>{
                 ...state,
                 menuName: action.menuName
             }
-            
+        case type.COLLAPSE_MENU:
+            return {
+                ...state,
+                navCol: action.navCol,
+                mainCol: action.mainCol,
+            }
         default:
             return {
                 ...state

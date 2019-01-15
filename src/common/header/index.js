@@ -3,12 +3,11 @@ import { Form, Input, Upload, Icon, Cascader, Select, Row, Col, Checkbox, Button
 import {
     HeaderWrapper, 
     Logo,
-    Nav,
-    NavItem,
     Addition,
 } from './style';
 import axios from 'axios';
-import qs from 'qs';
+import {register} from '../../redux/action/auth.action'
+import {connect} from 'react-redux';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -227,10 +226,11 @@ class Header extends Component {
     // }
     // 创建表单
     handleCreate = () => {
+      const API_URL = process.env.PMP_API_URL;
       const form = this.formRef.props.form;
       const regValue = this.formRef.props.form.getFieldsValue();
-      console.log(regValue);
-      
+      // console.log(regValue);
+      console.log(API_URL)
       form.validateFieldsAndScroll((err, values) => {
           if (err) {
           return;
@@ -240,17 +240,39 @@ class Header extends Component {
           form.resetFields();
           this.setState({ visible: false });
       });
-      axios.post(`http://localhost:8080/users/register`,regValue, {withCredentials: true})
-          .then((response) => {
-            console.log(response)
-            message.success('Register Success');
-            this.setState({
-              visible: false
-            })
-        }, (response) =>{
-          console.log(response);
-          message.error('error');
-        } )
+      this.props.register(regValue, (res) => {
+        if (res.data.success) {
+          message.success('Register Success');
+          this.setState({
+            visible: false
+          })
+        } else if (!res.data.success && res.data.code === 1001) {
+          message.error('Username has already been used');
+        } else {
+          message.error('failure');
+        }
+      })
+        
+        // if (res.data.success) {
+        //   message.success('Register Success');
+        //   this.setState({
+        //     visible: false
+        //   })
+        // }
+        
+      
+
+      // axios.post(`http://localhost:8080/users/register`,regValue, {withCredentials: true})
+      //     .then((response) => {
+      //       console.log(response)
+      //       message.success('Register Success');
+      //       this.setState({
+      //         visible: false
+      //       })
+      //   }, (response) =>{
+      //     console.log(response);
+      //     message.error('error');
+      //   } )
       // axios({
       //   url:'http://localhost:8080/users/register',
       //   method: 'post',
@@ -309,5 +331,5 @@ class Header extends Component {
     }
 }
 
-export default Header;
+export default connect(null, {register})(Header);
 

@@ -3,19 +3,62 @@ import { Row, Col, Button, Icon } from "antd";
 import { connect } from 'react-redux';
 import './index.less'
 import Util from '../../utils/utils'
-
+import {logout} from '../../redux/action/auth.action'
+import { collapseMenu } from '../../redux/action/switchMenu.action'
+import {bindActionCreators} from 'redux';
 class InnerHeader extends Component{
-    state={};
+    
+    constructor(props) {
+        super(props);
+        this.state = {
+            collapsed: true,
+        };
+      }
+  
+    //   static getDerivedStateFromProps(props, state) {
+    //     if (props.loggedIn) {
+    //       return state;
+    //     } else {
+    //       props.history.push('/login'); // redirect user to login page.
+    //       return state;
+    //     }
+    //   }
     componentWillMount(){
-        this.setState({
-            userName:'LeoDong'
-        })
+        // this.setState({
+        //     userName:'LeoDong'
+        // })
         setInterval(()=>{
             let sysTime = Util.formateDate(new Date().getTime());
             this.setState({
                 sysTime
             })
         },1000)
+    }
+    toggleCollapsed = () => {
+        // const { dispatch } = this.props;
+        if(this.state.collapsed){
+            this.setState({
+                navCol: 0,
+                mainCol: 24,
+                collapsed: false,
+            })
+            this.props.collapseMenu(this.state.navCol, this.state.mainCol)
+        } else {
+            this.setState({
+                navCol: 5,
+                mainCol: 19,
+                collapsed: true,
+            })
+            this.props.collapseMenu(this.state.navCol, this.state.mainCol)
+        }
+    }
+    handleLogout = () => {
+        this.props.logout((res) => {
+            if (res.data && res.data.success) {
+            //   this.props.history.push('/login');
+            window.location.href = '/#/login'
+            }
+          });
     }
     render(){
         return(
@@ -26,8 +69,8 @@ class InnerHeader extends Component{
                             <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
                         </Button>
                         <span className="wrapper">
-                            <span>Welcome，{this.state.userName}</span>
-                            <a href="#">Log out</a>
+                            <span>Welcome，{this.props.loggedIn.username}</span>
+                            <a onClick={this.handleLogout}>Log out</a>
                         </span>
                     </Col>
                 </Row>
@@ -44,9 +87,16 @@ class InnerHeader extends Component{
     }
 }
 const mapStateToProps = state => {
-    console.log(state.switchMenu)
+    // console.log(state.switchMenu)
+    console.log(state)
     return {
-        menuName: state.switchMenu.menuName
+        menuName: state.switchMenu.menuName,
+        loggedIn: state.loggedIn
     }
 }
-export default connect(mapStateToProps)(InnerHeader);
+// const mapDispatchToProps = (dispatch) => {
+//     return bindActionCreators({
+//         userlogout: logout
+//     }, dispatch)
+// }
+export default connect(mapStateToProps,{logout, collapseMenu})(InnerHeader);
