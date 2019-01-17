@@ -172,7 +172,7 @@ const RegisterForm = Form.create()(
                 <Input type="password" onBlur={this.handleConfirmBlur} />
               )}
             </FormItem>
-            <FormItem
+            {/* <FormItem
               {...formItemLayout}
               label="Phone Number:"
             >
@@ -182,7 +182,7 @@ const RegisterForm = Form.create()(
                 //addonBefore={prefixSelector}
                 <Input style={{ width: '100%' }} />
               )}
-            </FormItem>
+            </FormItem> */}
             <FormItem
               {...formItemLayout}
               label="Picture:"

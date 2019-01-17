@@ -210,7 +210,6 @@ class ProjectList extends PureComponent {
                 className="listCard"
                 bordered={false}
                 title="Work List"
-                style={{ marginTop: 24 }}
                 bodyStyle={{ padding: '0 32px 40px 32px' }}
                 extra={extraContent}
                 >

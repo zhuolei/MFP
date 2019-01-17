@@ -51,7 +51,7 @@ class TeamProject extends React.Component {
                 <List
                     rowKey="id"
                     // loading={loading}
-                    style={{ marginTop: 24 }}
+                    // style={{ marginTop: 24 }}
                     grid={{ gutter: 24, xl: 4, lg: 3, md: 3, sm: 2, xs: 1 }}
                     dataSource={['', ...list]}
                     renderItem={item =>
