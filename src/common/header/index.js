@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { Form, Input, Upload, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Modal, message} from 'antd';
+import { Form, Input, Upload, Icon, Button, Modal, message} from 'antd';
 import {
     HeaderWrapper, 
     Logo,
     Addition,
 } from './style';
-import axios from 'axios';
 import {register} from '../../redux/action/auth.action'
 import {connect} from 'react-redux';
 const FormItem = Form.Item;
-const Option = Select.Option;
+// const Option = Select.Option;
 
 
 const RegisterForm = Form.create()(
@@ -226,11 +225,9 @@ class Header extends Component {
     // }
     // 创建表单
     handleCreate = () => {
-      const API_URL = process.env.PMP_API_URL;
       const form = this.formRef.props.form;
       const regValue = this.formRef.props.form.getFieldsValue();
       // console.log(regValue);
-      console.log(API_URL)
       form.validateFieldsAndScroll((err, values) => {
           if (err) {
           return;
@@ -249,7 +246,7 @@ class Header extends Component {
         } else if (!res.data.success && res.data.code === 1001) {
           message.error('Username has already been used');
         } else {
-          message.error('failure');
+          message.error('Error');
         }
       })
         

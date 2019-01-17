@@ -1,11 +1,41 @@
 import React from 'react';
 import './index.less';
-import { List, Button, Card, Icon, Tooltip, Avatar, Modal, Form, Input } from 'antd';
+import { List, Button, Card, Icon, Tooltip, Avatar, Modal, Form, Input, message } from 'antd';
 import numeral from 'numeral';
-
+import {createteam} from '../../redux/action/teamAuth.action';
+import {connect} from 'react-redux';
 const FormItem = Form.Item
 class TeamProject extends React.Component {
     state = { visible: false };
+    handleCancel = () => {
+        this.setState({ visible: false });
+    }
+    handleCreate = () =>{
+        const form = this.teamForm.props.form;
+        const formValue = this.teamForm.props.form.getFieldsValue();
+        console.log(formValue);
+        form.validateFieldsAndScroll((err) => {
+            if (err) {
+            return;
+            }
+            form.resetFields();
+            this.setState({ visible: false });
+        });
+        this.props.createteam(formValue, (res) => {
+            if (res.data.success) {
+                message.success('Team is created successly');
+                this.setState({
+                    visible: false
+                })
+            } else if (!res.data.success && res.data.code === 4004) {
+                message.error('Teamname has already been used');
+            } else {
+                message.error('Error');
+            }
+            
+        })
+
+    }
     showModal = () => {
         this.setState({
           visible: true,
@@ -94,26 +124,29 @@ class TeamProject extends React.Component {
                     )
                     }
                 />
-                <Modal 
-                    title="create"
-                    visible={this.state.visible}
-                    onCancel={()=>{
-                        this.setState({
-                            visible:false
-                        })
-                    }}
-                    onOk={this.handleSubmit}
-                >
-                    <CreateTeamForm wrappedComponentRef={(inst)=>{this.cityForm = inst;}}/>
-                </Modal>
+               
+                    <CreateTeamForm 
+                        wrappedComponentRef={(teamForm)=>{this.teamForm = teamForm;}}
+                        visible={this.state.visible}
+                        onCancel={this.handleCancel}
+                        onCreate={this.handleCreate}
+                        />
+               
             </div>
         )
     }
 }
 class CreateTeamForm extends React.Component{
 	render(){
-		const { getFieldDecorator }  =this.props.form;
+        const { getFieldDecorator }  =this.props.form;
+        const { visible, onCancel, onCreate } = this.props;
 		return (
+            <Modal 
+                title="create"
+                visible={visible}
+                onCancel={onCancel}
+                onOk={onCreate}
+            >
 			<Form layout="vertical" >
 				<FormItem label="Team name" >
 				{getFieldDecorator('teamname', {
@@ -123,8 +156,9 @@ class CreateTeamForm extends React.Component{
 				)}
 				</FormItem>
 			</Form>
+            </Modal>
 		)
 	}
 }
 CreateTeamForm = Form.create({})(CreateTeamForm);
-export default TeamProject;
+export default connect(null, {createteam})(TeamProject);
