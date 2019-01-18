@@ -88,7 +88,6 @@ class InnerHeader extends Component{
 }
 const mapStateToProps = state => {
     // console.log(state.switchMenu)
-    console.log(state)
     return {
         menuName: state.switchMenu.menuName,
         loggedIn: state.loggedIn
