@@ -4,15 +4,17 @@ import reducer from '../reducer/root.reducer'
 import ReduxPromise from 'redux-promise';
 import { composeWithDevTools } from 'redux-devtools-extension'
 import {persistStore, persistReducer} from 'redux-persist';
-import AsyncStorage from 'redux-persist/lib/storage';
+import Storage from 'redux-persist/lib/storage';
+import {autoMergeLevel2} from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 // import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 const persistConfig = {
     key: 'root',
-    storage: AsyncStorage,
+    storage: Storage,
     // stateReconciler: autoMergeLevel2, // 查看 'Merge Process' 部分的具体情况
-    whitelist: ['loggedIn'],
-    blacklist: ['switchMenu', 'teams']
+    stateReconciler: autoMergeLevel2,
+    whitelist: ['loggedIn','teams'],
+    // blacklist: ['teams'],
   };
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);

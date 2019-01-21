@@ -5,7 +5,7 @@ import Login from './firstpage';
 import Admin from './admin';
 import NoMatch from './pages/nomatch';
 import Home from './pages/home';
-import AllProjects from './pages/project';
+import AllProjects from './pages/project/projectlist';
 import Team from './pages/team';
 import Basic from './pages/account/BaseView';
 export default class IRouter extends Component{
@@ -20,8 +20,9 @@ export default class IRouter extends Component{
                             <Switch>
                                 <Route path="/admin/home" component={Home} />
                                 <Route path="/admin/project/allteams" component={Team}/>
-                                <Route path="/admin/project/team1" component={AllProjects} />
+                                {/* <Route path="/admin/project/team1" component={AllProjects} /> */}
                                 {/* <Route path="/admin/team2" component={Project} /> */}
+                                <Route path="/admin/project/detail/:teamId" component={AllProjects} />
                                 <Route path="/admin/account/basic" component={Basic} />
                                 <Route component={NoMatch}></Route>
                             </Switch>

@@ -57,6 +57,7 @@ class InnerHeader extends Component{
             if (res.data && res.data.success) {
             //   this.props.history.push('/login');
             window.location.href = '/#/login'
+            window.localStorage.clear();
             }
           });
     }

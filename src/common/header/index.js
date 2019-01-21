@@ -151,6 +151,9 @@ const RegisterForm = Form.create()(
                 rules: [{
                   required: true, message: 'Please input your password!',
                 }, {
+                  required: true, min: 6,
+                },
+                {
                   validator: this.validateToNextPassword,
                 }],
               })(

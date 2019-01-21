@@ -3,13 +3,45 @@ import { Menu, Icon } from 'antd';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { switchMenu } from '../../redux/action/switchMenu.action'
+import { getTeams } from '../../redux/action/teamAuth.action';
 import MenuConfig from './../../config/menuConfig';
 import './index.less'
 const SubMenu = Menu.SubMenu;
 class NavLeft extends React.Component {
+    
     state = {
         currentKey:'',
         collapsed: false,
+        teamlist:[],
+    }
+    componentDidMount() {
+        this.props.getTeams();  
+        const teams = this.props.getTeams(); 
+        console.log(this.state.teamlist)
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log("****")  
+        console.log(this.props.teams);
+        console.log("****")  
+        if (nextProps.teams !== this.props.teams) {
+            const teams = nextProps.teams;
+            console.log("****")
+            console.log(teams.data)
+            console.log("****")      
+            // this.setState({
+            //     teamlist: list
+            // })
+        }  else {
+            const list=[this.props.teams];
+            console.log(list)
+        }
+    }
+    componentWillUpdate(nextProps, nextState){
+        // state.teamlist
+        // this.setState({
+        //     teamlist: this.props.teams
+        // })
+        console.log(nextProps)
     }
     toggleCollapsed = () => {
         this.setState({
@@ -17,14 +49,41 @@ class NavLeft extends React.Component {
         });
     }
     handleClick = ({item, key}) => {
-        const { dispatch } = this.props;
-        dispatch(switchMenu(item.props.title))
+        // console.log(MenuConfig);
+        // console.log(this.props);
+        this.props.switchMenu(item.props.title);
         this.setState({
             currentKey:key
         })
 
     }
     componentWillMount(){
+        console.log(this.props.teams)
+        this.setState({
+            teamlist: [...(this.props.teams||[])]
+        })
+        //动态menu实现不了
+        const childrenItem = {
+            title: '',
+            key: ''
+        }
+        const children = []
+        const newMenuConfig = []
+        // MenuConfig[1].children.push(childrenItem)
+        // console.log(MenuConfig[1].children);
+        // MenuConfig[1].children.push;
+        this.state.teamlist.map((item) => {
+            let i = item.team.teamname;
+            childrenItem.title = {i}
+            childrenItem.key = `/admin/project/${i}`
+            // newMenuConfig = MenuConfig[1].children.push(childrenItem)
+            console.log(MenuConfig[1].children.push(childrenItem))
+        })
+        // teams.data.map(item => {
+        //     console.log(item)
+        // })
+        // console.log(MenuConfig[1].children)
+        
         const menuTreeNode = this.renderMenu(MenuConfig);
         let currentKey = window.location.hash.replace(/#|\?.*$/g,'')
         this.setState({
@@ -61,6 +120,7 @@ class NavLeft extends React.Component {
         })
     }
     render() {
+        
         return (
             <div
                 >
@@ -82,4 +142,4 @@ class NavLeft extends React.Component {
         );
     }
 }
-export default connect()(NavLeft)
+export default connect(null,{getTeams, switchMenu})(NavLeft)

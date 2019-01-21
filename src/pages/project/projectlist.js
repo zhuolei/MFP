@@ -4,26 +4,27 @@ import moment from 'moment';
 import {
   List,
   Card,
-  Row,
-  Col,
   Radio,
   Input,
   Progress,
   Button,
   Icon,
-  Dropdown,
-  Menu,
   Avatar,
   Modal,
   Form,
   DatePicker,
   Select,
-  Divider,
 } from 'antd';
 // import PageHeaderWrapper from '../../common/PageHeaderWrapper';
 import Result from '../../common/Result';
+import {connect} from 'react-redux';
 import './worklist.less';
-
+// withRouter可以包装任何自定义组件，将react-router 的 history,location,match 三个对象传入。 
+// 无需一级级传递react-router 的属性，当需要用的router
+// 属性的时候，将组件包一层withRouter，就可以拿到需要的路由信息
+import {withRouter} from 'react-router-dom';
+import CreateProjectForm from './createproject';
+import {getallusersinoneteam} from '../../redux/action/teamAuth.action'
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
@@ -32,11 +33,46 @@ const SelectOption = Select.Option;
 const { Search, TextArea } = Input;
 
 class ProjectList extends PureComponent {
-    state = { visible: false, done: false };
+    state = { 
+        visible: false, 
+        done: false, 
+        createProjectFormVisible: false,
+    };
+    constructor(props) {
+        super(props)
+    }
+    componentDidMount(){
+        // if(!this.props.teams) {
+        //     this.props.getallusersinoneteam();
+        // }
+    }
     formLayout = {
         labelCol: { span: 7 },
         wrapperCol: { span: 13 },
     };
+    // create project form
+    showCreateProjectForm = () => {
+        this.setState({
+            createProjectFormVisible: true
+        })
+    }
+    createProjectFormHandleCancel = () => {
+        this.setState({
+            createProjectFormVisible: false
+        })
+    }
+    createProjectFormHandleCreate = () => {
+        const form = this.projectForm.props.form;
+        const formValue = this.projectForm.props.form.getFieldsValue();
+        form.validateFieldsAndScroll((err) => {
+            if (err) {
+            return;
+            }
+            form.resetFields();
+            this.setState({ createTeamFormVisible: false });
+        });
+        console.log(formValue);
+    }
     // 添加
     showModal = () => {
         this.setState({
@@ -133,69 +169,7 @@ class ProjectList extends PureComponent {
             </div>
         );
         
-        const getModalContent = () => {
-        if (done) {
-            return (
-            <Result
-                type="success"
-                title="操作成功"
-                description="一系列的信息描述，很短同样也可以带标点。"
-                actions={
-                <Button type="primary" onClick={this.handleDone}>
-                    知道了
-                </Button>
-                }
-                className="formResult"
-            />
-            );
-        }
         
-        return (
-            <Form onSubmit={this.handleSubmit}>
-            <FormItem label="Project Name" {...this.formLayout}>
-                {getFieldDecorator('title', {
-                rules: [{ required: true, message: 'please input project name' }],
-                initialValue: current.title,
-                })(<Input placeholder="请输入" />)}
-            </FormItem>
-            <FormItem label="开始时间" {...this.formLayout}>
-                {getFieldDecorator('createdAt', {
-                rules: [{ required: true, message: '请选择开始时间' }],
-                initialValue: current.createdAt ? moment(current.createdAt) : null,
-                })(
-                <DatePicker
-                    showTime
-                    placeholder="请选择"
-                    format="YYYY-MM-DD HH:mm:ss"
-                    style={{ width: '100%' }}
-                />
-                )}
-            </FormItem>
-            <FormItem label="任务负责人" {...this.formLayout}>
-                {getFieldDecorator('owner', {
-                rules: [{ required: true, message: '请选择任务负责人' }],
-                initialValue: current.owner,
-                })(
-                <Select placeholder="请选择">
-                    <SelectOption value="付晓晓">付晓晓</SelectOption>
-                    <SelectOption value="周毛毛">周毛毛</SelectOption>
-                </Select>
-                )}
-            </FormItem>
-            <FormItem {...this.formLayout} label="产品描述">
-                {getFieldDecorator('subDescription', {
-                rules: [{ message: '请输入至少五个字符的产品描述！', min: 5 }],
-                initialValue: current.subDescription,
-                })(<TextArea rows={4} placeholder="请输入至少五个字符" />)}
-            </FormItem>
-            </Form>
-        );
-        };
-        
-        const modalFooter = done
-            ? { footer: null, onCancel: this.handleDone }
-            : { okText: '保存', onOk: this.handleSubmit, onCancel: this.handleCancel };
-
         
         const IconText = ({ type, text }) => (
         <span>
@@ -203,13 +177,27 @@ class ProjectList extends PureComponent {
             {text}
         </span>
         );
+        const userlist =[];
+        
+        const teamuser = this.props.initialValues.teamUsers;
+        teamuser.map(i => {
+            let user = {};
+            user.username = i.user.username
+            user.teamRole = i.teamRole.type
+            userlist.push(user)
+        })
+
         return (
-           
+            
             <div className="standardList">
+            <Card>
+                <p><pre>{JSON.stringify(this.props.initialValues.teamUsers)}</pre></p>
+                <p><pre>{JSON.stringify(userlist)}</pre></p>
+            </Card>
             <Card
                 className="listCard"
                 bordered={false}
-                title="Work List"
+                title="Project List"
                 bodyStyle={{ padding: '0 32px 40px 32px' }}
                 extra={extraContent}
                 >
@@ -217,7 +205,7 @@ class ProjectList extends PureComponent {
                     type="dashed"
                     style={{ width: '100%', marginBottom: 8 }}
                     icon="plus"
-                    onClick={this.showModal}
+                    onClick={this.showCreateProjectForm}
                     // ref 是什么
                     ref={component => {
                         /* eslint-disable */
@@ -273,22 +261,36 @@ class ProjectList extends PureComponent {
                     )}
                 />
             </Card>
-            {/* 控制visible true or false让modal显示 */}
-            <Modal
-                title={done ? null : `${current ? 'Edit' : 'Add'}Project`}
-                className="standardListForm"
-                width={640}
-                bodyStyle={done ? { padding: '72px 0' } : { padding: '28px 0 0' }}
-                destroyOnClose
-                visible={visible}
-                {...modalFooter}
-                >
-                {getModalContent()}
-            </Modal>
+            
+           
+
+             <CreateProjectForm 
+                    wrappedComponentRef={(projectForm)=>{this.projectForm = projectForm;}}
+                    visible={this.state.createProjectFormVisible}
+                    onCancel={this.createProjectFormHandleCancel}
+                    onCreate={this.createProjectFormHandleCreate}
+                    userlist={userlist}
+                />
             </div>
             
         )
     }
 }
+
 const FinalProjectList = Form.create()(ProjectList);
-export default FinalProjectList;
+
+// 1st parameter: application state
+// 2st parameter: current component props
+function mapStateToProps({teams}, componentProps) {
+    console.log(componentProps.match);
+    const team = teams ? teams.find(t => {
+      return t.id === +componentProps.match.params.teamId;
+    }) : null;
+    console.log(team)
+    return {
+        teams,
+        initialValues: team
+    };
+    // initialValues which will be on component props will be used as default values for redux-form
+  }
+export default withRouter(connect(mapStateToProps,{getallusersinoneteam})(FinalProjectList));
