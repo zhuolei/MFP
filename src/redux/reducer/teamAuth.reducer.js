@@ -34,7 +34,8 @@ export default function (state = null, action) {
         case INVITE_USER:
             if(action.payload.data.success){
                 console.log(action.payload)
-                return [...state, action.payload.data.team];
+                // data.teamList 和 后端return来的值(必须要有对应get()方法 json库才会帮你对应)对应 
+                return action.payload.data.teamList;
             } else {
                 return state;
             }

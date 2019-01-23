@@ -46,8 +46,8 @@ class TeamProject extends React.Component {
             })
         }  
     }
-    // componentWillUpdate(nextState) {
-    //     this.state = nextState
+    // componentWillUpdate(nextProps) {
+    //     this.props = nextProps;
     // }
     // 创建team
     handleCancel = () => {
@@ -182,31 +182,28 @@ class TeamProject extends React.Component {
         //     loading,
         //     form,
         // } = this.props;
-        const CardInfo = ({ membersNumber, ProjectsNumber }) => (
+        const CardInfo = ({ teamName, membersNumber }) => (
             <div className='cardInfo'>
-              <div>
-                <p>Person No</p>
-                <p>{membersNumber}</p>
+                <div>
+                <p>Team Name</p>
+                <p>{teamName}</p>
               </div>
               <div>
-                <p>Project No</p>
-                <p>{ProjectsNumber}</p>
+                <p>Person No.</p>
+                <p>{membersNumber}</p>
               </div>
             </div>
         ); 
-        const ModalTitle = () => (
-            <Icon 
-                type="exclamation-circle"
-                theme="twoTone" twoToneColor="#eb2f96" 
-            >
-                Delete
-            </Icon>
-        )
+        const list =this.state.teamlist;
+        // list.map()
         return (
             <div className='cardList'>
+                <Card>
+                <div><pre>{JSON.stringify(list)}</pre></div>
+                </Card>
                 <Row gutter={10} >
                 {this.state.teamlist.map((item, index) => (
-            item !== null ?(item!=='' ? (
+            item !== null ? (item!=='' ? (
             <Col key={index} xs={24} sm={12} md={12} lg={8} xl={8}>
             <Card 
                 hoverable 
@@ -232,11 +229,12 @@ class TeamProject extends React.Component {
                 >
                 <Card.Meta 
                 avatar={<Avatar size="small" src='https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' />} 
-                title={item.teamname} />
+                title={index} />
                     <div className='cardItemContent'>
                     <CardInfo
-                        membersNumber={item.membersNumber}
-                        ProjectsNumber={numeral(item.id).format('0,0')}
+                    //numeral(item.id).format('0,0')
+                        teamName={item.teamname}
+                        membersNumber={item.membersNumber}  
                     />
                     </div>
             </Card>
@@ -254,8 +252,12 @@ class TeamProject extends React.Component {
                 </Button>
                 </Col>
             )
-        ): (
-            <Spin size="large" />
+        ) : (
+            <Col xs={24} sm={12} md={12} lg={8} xl={8}>
+            <Card>
+                <Spin />
+            </Card>
+            </Col>
         )))}
                 </Row>
                 <InviteMemberForm
@@ -332,7 +334,6 @@ class CreateTeamForm extends React.Component{
 }
 CreateTeamForm = Form.create({})(CreateTeamForm);
 const mapStateToProps = state => {
-    
     return {
         teams: state.teams,
     }

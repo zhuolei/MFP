@@ -1,8 +1,10 @@
 import React from 'react';
 import { Modal, Form, Select, Input, Row, Col, DatePicker, Avatar, Checkbox } from 'antd';
+import {moment} from 'moment';
+
 const { Option } = Select;
 const FormItem = Form.Item;
-const {RangePicker, } = DatePicker;
+const {RangePicker } = DatePicker;
 class CreateProject extends React.Component{
     render(){
         const { getFieldDecorator } = this.props.form;
@@ -14,11 +16,11 @@ class CreateProject extends React.Component{
         let key = 0;
         userlist.map(u => {
             if(!u.key){
-            u.key = ++key;
+            u.key = u.id;
             }
         })
         const userslist = userlist.map((user, index) => 
-          <Row gutter={8} >
+          <Row gutter={8} key={index}>
                 {/* <p><pre>{JSON.stringify(user.key)}</pre></p> */}
               <Col xl={5} lg={5} md={5} xs={12} >
                 <FormItem label="Team Member">
@@ -40,13 +42,13 @@ class CreateProject extends React.Component{
                 })(
                     <Checkbox.Group >
                         <Row>
-                        <Checkbox value="1">Composer</Checkbox>
+                        <Checkbox value="Composer">Composer</Checkbox>
                         </Row>
                         <Row>
-                        <Checkbox value="2">Orchestrator</Checkbox>
+                        <Checkbox value="Orchestrator">Orchestrator</Checkbox>
                         </Row>
                         <Row>
-                        <Checkbox value="3">Mixer</Checkbox>   
+                        <Checkbox value="Mixer">Mixer</Checkbox>   
                         </Row> 
                     </Checkbox.Group>
                 )}
@@ -107,6 +109,8 @@ class CreateProject extends React.Component{
                 onCancel={onCancel}
                 width= {1080}
                 onOk ={onCreate}
+                closable
+                destroyOnClose ={true}
             >
                <Form
                     layout='vertical'
@@ -228,7 +232,7 @@ class CreateProject extends React.Component{
                     <Col xl={8} lg={8} md={24}>
                         <FormItem  label="Scoring Date Range" hasFeedback>
                         {getFieldDecorator('scoringdaterange', {rules: [{ type: 'array', required: true, message: 'Please select time!' }],})(
-                        <RangePicker />
+                        <RangePicker format='YYYY/MM/DD' />
                         )}
                         </FormItem>
                         </Col>
@@ -239,7 +243,7 @@ class CreateProject extends React.Component{
                                 type: 'object', required: true, message: 'Please select time!' 
                             }],
                         })(
-                            <DatePicker/>
+                            <DatePicker format='YYYY/MM/DD'/>
                         )}
                         </FormItem>
                         </Col>
@@ -250,7 +254,7 @@ class CreateProject extends React.Component{
                                 type: 'object', required: true, message: 'Please select time!' 
                             }],
                         })(
-                            <DatePicker/>
+                            <DatePicker format='YYYY/MM/DD'/>
                         )}
                         </FormItem>
                         </Col>

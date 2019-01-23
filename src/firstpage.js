@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Header from './common/header';
 import NormalLoginForm from './pages/login';
 import './resource/assets/firstpage.svg'
-
+import {Layout} from 'antd';
+const {Footer} = Layout;
 class FirstPage extends Component {
   render() {
     return (

@@ -92,3 +92,26 @@ const getModalContent = () => {
             </Checkbox.Group>
           )}
         </Form.Item>
+
+
+
+
+        {	
+	"teamId" : 38,
+	"userProjectCreation": [
+		{"userId":"14","commentrole":1,"composerole1":"Composer","composerole2": null,"composerole3":null,"mediarole":1,"notificationrole":1},
+		{"userId":"18","commentrole":2,"composerole1": null,"composerole2": "Orchestrator","composerole3":null,"mediarole":2,"notificationrole":2}
+	],
+	"filmtitle": "film2",
+	"season": "season2",
+	"episodetitle": "episode",
+	"episodenumber": "episode1",
+	"codename": "code",
+	"projecttype": "radio",
+	"timecoderate": "24",
+	"lanesintimeline": "1",
+	"scoringstartdate": "2018-12-31 01:30:30",
+	"scoringdeadline": "2019-1-1 01:30:30",
+	"orchestrationdeadline": "2019-1-2 01:30:30",
+	"deliverydeadline": "2019-1-2 01:30:30"
+}

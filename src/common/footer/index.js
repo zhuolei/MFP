@@ -4,7 +4,7 @@ export default class Footer extends Component{
     render(){
         return (
             <div className="footer">
-                Copyright
+                PMP ©2019 Created by Leo Dong
             </div>
         )
     }
