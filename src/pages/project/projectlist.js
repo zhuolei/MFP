@@ -277,20 +277,19 @@ class ProjectList extends PureComponent {
             user.teamRole = i.teamRole.type
             userlist.push(user)
         })
-        const projectlist =[]
-        const teamproject = this.props.initialValues.teamProject;
-        teamproject.map(i => {
-            projectlist.push(i.project);
-        })
+        // const projectlist =[]
+        // const teamproject = this.props.initialValues.teamProject;
+        // teamproject.map(i => {
+        //     projectlist.push(i.project);
+        // })
         return (
             
             <div className="standardList">
-            <Card>
-                <p><pre>{JSON.stringify(projectlist)}</pre></p>
+            {/* <Card>
                 <p><pre>{JSON.stringify(this.props.initialValues.teamProject)}</pre></p>
                 <p><pre>{JSON.stringify(this.props.projects)}</pre></p>
                 <p><pre>{JSON.stringify(this.props.match.params.teamId)}</pre></p>
-            </Card>
+            </Card> */}
             <Card
                 className="listCard"
                 bordered={false}
@@ -351,7 +350,9 @@ class ProjectList extends PureComponent {
                         >
                             <List.Item.Meta
                             avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                            title={<NavLink to={`/project/detail/${item.id}`}><span>{item.filmtitle}</span>&nbsp;<span>{item.season}</span>&nbsp;<span>{item.episodetitle}</span>&nbsp;<span>{item.episodenumber}</span></NavLink>}
+                            title={<NavLink 
+                                to={`/project/detail/${JSON.stringify({'teamId':`${this.props.match.params.teamId}`,'projectId':`${item.id}`})}`
+                                }><span>{item.filmtitle}</span>&nbsp;<span>{item.season}</span>&nbsp;<span>{item.episodetitle}</span>&nbsp;<span>{item.episodenumber}</span></NavLink>}
                             description={<div><span>Code Name: {item.codename}</span>&nbsp;|&nbsp;<span>Project Type: {item.projecttype}</span>&nbsp;|&nbsp;<span>Time Code Rate: {item.timecoderate}</span>&nbsp;|&nbsp;<span>Lanes in Time Line: {item.lanesintimeline}</span></div>}
                             />
                             <ListContent startdate={item.scoringstartdate} enddate={item.scoringenddate} />

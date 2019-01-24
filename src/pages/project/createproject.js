@@ -229,9 +229,9 @@ class CreateProject extends React.Component{
                     </Row>
 
                     <Row gutter={8}>
-                    <Col xl={8} lg={8} md={24}>
+                        <Col xl={8} lg={8} md={24}>
                         <FormItem  label="Scoring Date Range" hasFeedback>
-                        {getFieldDecorator('scoringdaterange', {rules: [{ type: 'array', required: true, message: 'Please select time!' }],})(
+                        {getFieldDecorator('scoringdaterange', {rules: [{ type: 'array', required: true, message: 'Please select date!' }],})(
                         <RangePicker format='YYYY/MM/DD' />
                         )}
                         </FormItem>
@@ -240,7 +240,7 @@ class CreateProject extends React.Component{
                         <FormItem  label="Orchestration Deadline" hasFeedback>
                         {getFieldDecorator('orchestrationdeadline', {
                             rules: [{ 
-                                type: 'object', required: true, message: 'Please select time!' 
+                                type: 'object', required: true, message: 'Please select date!' 
                             }],
                         })(
                             <DatePicker format='YYYY/MM/DD'/>
@@ -251,7 +251,7 @@ class CreateProject extends React.Component{
                         <FormItem  label="Delivery Deadline" hasFeedback>
                         {getFieldDecorator('deliverydeadline', {
                             rules: [{ 
-                                type: 'object', required: true, message: 'Please select time!' 
+                                type: 'object', required: true, message: 'Please select date!' 
                             }],
                         })(
                             <DatePicker format='YYYY/MM/DD'/>

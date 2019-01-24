@@ -115,3 +115,7 @@ const getModalContent = () => {
 	"orchestrationdeadline": "2019-1-2 01:30:30",
 	"deliverydeadline": "2019-1-2 01:30:30"
 }
+
+teamUsers.filter( tu => {
+    tu.username === this.props.loggedIn.username
+})

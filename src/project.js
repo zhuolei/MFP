@@ -35,11 +35,11 @@ class Project extends React.Component {
                                     borderRadius: "19px",
                                     }} onClick={this.handleLogout}>Logout</Button>
                 </Header>
-                <Content>
+                <Content >
                 <Icon type="ant-design" theme="twoTone" twoToneColor="#52c41a"/>
                     {this.props.children}
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>    
+                <Footer style={{ textAlign: 'center', height:'500px' }}>    
                     PMP ©2019 Created by Leo Dong
                 </Footer>
             </Layout>

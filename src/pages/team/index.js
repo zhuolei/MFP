@@ -20,6 +20,8 @@ class TeamProject extends React.Component {
     // constructor(){
     //     this.props.getTeams();
     // }
+    // Invalid attempt to spread non-iterable instance
+
     componentWillMount() {
         this.setState({
                 teamlist: ['',...(this.props.teams||[])]
@@ -195,13 +197,21 @@ class TeamProject extends React.Component {
             </div>
         ); 
         const list =this.state.teamlist;
+        // list.shift()
+        // let listcopy = []
+        // list.map(tul => {
+        //     let c =  tul.teamUsers.filter( tu => {
+        //         tu.username === this.props.loggedIn.username
+        //     })
+        //     listcopy.push(c)
+        // })
         // list.map()
         return (
             <div className='cardList'>
-                <Card>
+                {/* <Card>
                 <div><pre>{JSON.stringify(list)}</pre></div>
-                </Card>
-                <Row gutter={10} >
+                </Card> */}
+                <Row gutter={20} >
                 {this.state.teamlist.map((item, index) => (
             item !== null ? (item!=='' ? (
             <Col key={index} xs={24} sm={12} md={12} lg={8} xl={8}>
@@ -238,7 +248,7 @@ class TeamProject extends React.Component {
                     />
                     </div>
             </Card>
-            <div><pre>{JSON.stringify(item)}</pre></div>
+            {/* <div><pre>{JSON.stringify(item)}</pre></div> */}
             
             </Col>
             ): (

@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import {login} from '../../redux/action/auth.action'
 import { Card, Form, Input, Button, message, Icon, Checkbox } from "antd";
+import { getTeams } from '../../redux/action/teamAuth.action';
 import 'antd/dist/antd.css';
 import {FormWrapper} from './style';
 const FormItem = Form.Item;
@@ -41,6 +42,7 @@ class FormLogin extends React.Component{
             console.log(res)
             if (res.data.success) {
                 // this.props.history.push('/#/admin/home');
+                this.props.getTeams();
                 window.location.href = '/#/admin/home'
             } else if (!res.data.success) {
                 message.error('username or password is wrong')
@@ -118,4 +120,4 @@ class FormLogin extends React.Component{
 }
 const finalFormLogin = Form.create()(FormLogin);
 
-export default connect(null, {login})(finalFormLogin);
+export default connect(null, {login,getTeams})(finalFormLogin);
