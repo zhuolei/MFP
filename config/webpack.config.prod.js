@@ -347,7 +347,8 @@ module.exports = {
               {
                 loader:require.resolve('less-loader'),
                 options: {
-                  modules: false,
+                  javascriptEnabled: true,
+                  // modules: false,
                   modifyVars: {
                       "@primary-color": "#f9c700"
                   }

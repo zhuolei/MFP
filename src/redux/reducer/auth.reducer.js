@@ -1,4 +1,4 @@
-import {LOGIN, LOGOUT, SET_CURRENT_USER} from '../action/auth.action';
+import {LOGIN, LOGOUT, UPDATE_USER} from '../action/auth.action';
 // import { REGISTER } from '../action/auth.action';
 
 export default function (state = null, action) {
@@ -18,6 +18,13 @@ export default function (state = null, action) {
       console.log(res)
       if (res && res.success) {
         return res.user;
+      } else {
+        return state;
+      }
+    case UPDATE_USER:
+      res = action.payload.data;
+      if(res) {
+        return res
       } else {
         return state;
       }

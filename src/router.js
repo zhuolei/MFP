@@ -10,6 +10,7 @@ import Team from './pages/team';
 import Basic from './pages/account/BaseView';
 import Cue from './pages/cue';
 import Project from './project';
+import AllUser from './pages/allusers'
 export default class IRouter extends Component{
 
     render(){
@@ -27,6 +28,7 @@ export default class IRouter extends Component{
                                 <Route path="/admin/project/detail/:teamId" component={AllProjects} />
                                 {/* <Route path="/admin/project/detail/:teamId&:projectId" component={Cue} /> */}
                                 <Route path="/admin/account/basic" component={Basic} />
+                                <Route path="/admin/users" component = {AllUser} />
                                 <Route component={NoMatch}></Route>
                             </Switch>
                         </Admin>

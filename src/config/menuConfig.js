@@ -32,10 +32,10 @@ const menuList = [
                 title:'Basic Setting',
                 key:'/admin/account/basic',
             },
-            {
-                title:'Security Setting',
-                key:'/admin/account/security',
-            }
+            // {
+            //     title:'Security Setting',
+            //     key:'/admin/account/security',
+            // }
         ]
     },
     

@@ -3,10 +3,10 @@ import {CREATE_PICTURE, GET_PICTURE} from '../action/picture.action';
 export default function (state = null , action) {
     switch (action.type) {
         case CREATE_PICTURE: 
-            if(action.payload.data.success){
+            if(action.payload.data && action.payload.data.success){
                 console.log(action.payload)
                 console.log(state)
-                return [...state,action.payload.data.picture];
+                return action.payload.data.picture;
             } else {
                 return state;
             }

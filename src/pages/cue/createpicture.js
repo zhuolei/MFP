@@ -1,10 +1,10 @@
 import React from 'react';
-import { Modal, Form, Select, Input, Row, Col, DatePicker, Avatar, Checkbox, TimePicker } from 'antd';
+import { Modal, Form, Select, Input, Row, Col, DatePicker,  TimePicker } from 'antd';
 import moment from 'moment';
 
 const { Option } = Select;
 const FormItem = Form.Item;
-const {RangePicker } = DatePicker;
+
 class CreatePicture extends React.Component{
     render(){
         const { getFieldDecorator } = this.props.form;
@@ -85,7 +85,7 @@ class CreatePicture extends React.Component{
                         <FormItem 
                             label="Notes" >
                             {getFieldDecorator('note', {
-                                rules: [{ required: true, message: 'Please input note!' }],
+                                // rules: [{ required: true, message: 'Please input note!' }],
                             })(
                                 <Input />
                             )}

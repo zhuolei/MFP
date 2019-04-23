@@ -7,7 +7,6 @@ import {
 } from '../action/teamAuth.action';
 
 export default function (state = null, action) {
-    let res;
     switch (action.type) {
         case CREATE_TEAM:
             // console.log(action.payload)
@@ -23,7 +22,6 @@ export default function (state = null, action) {
             } else {
                 return action.payload.data;
             }
-            console.log(action.payload)
         
         case GET_ALL_USERS_IN_ONE_TEAM:
             if(action.payload.data == null) {

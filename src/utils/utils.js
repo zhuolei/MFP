@@ -1,4 +1,4 @@
-import React from 'react';
+
 export default{
     formateDate(time){
         if(!time)return '';

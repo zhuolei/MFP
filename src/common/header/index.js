@@ -185,7 +185,8 @@ const RegisterForm = Form.create()(
                 <Input style={{ width: '100%' }} />
               )}
             </FormItem> */}
-            <FormItem
+            {/* 以后拿出来 */}
+            {/* <FormItem
               {...formItemLayout}
               label="Picture:"
             >
@@ -200,7 +201,7 @@ const RegisterForm = Form.create()(
                 {this.state.userImg?<img style={{width: "128px", height: "128px"}} src={this.state.userImg}/> : <Icon type="plus" />}
                 </Upload>
               )}
-            </FormItem>
+            </FormItem> */}
           </Form>
         </Modal>
       );

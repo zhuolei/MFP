@@ -1,6 +1,6 @@
 import React, { Component }from "react";
 import {connect} from 'react-redux';
-import { Avatar, Skeleton, Card, List, Row, Col } from 'antd';
+import { Avatar, Skeleton, Card, Row, Col } from 'antd';
 import './index.less';
 class Home extends Component{
 
@@ -42,9 +42,9 @@ class Home extends Component{
         );
 
         return(
-            <div>
-            <Row>
-            <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+            <Card style={{height:'500px'}}>
+            <Row >
+            <Col xl={24} lg={24} md={24} sm={24} xs={24}>
             <Card bordered={false}
                 className='card'
                 >
@@ -62,9 +62,12 @@ class Home extends Component{
                 </Skeleton>
             </Card>
             </Col>
-            <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+            </Row>
+            {/* <Row style={{textAlign : 'center'}} >
+            <Col xl={24} lg={24} md={24} sm={24} xs={24}>
             <Card
                 bordered={false}
+                
                 >
                 <Meta
                     title={extraContent}
@@ -72,11 +75,11 @@ class Home extends Component{
                 </Meta>
             </Card>
             </Col>
-            </Row>
-            <div className="home-wrap">
+            </Row> */}
+            {/* <div className="home-wrap">
                 welcome
-            </div>
-            </div>
+            </div> */}
+            </Card>
         );
     }
 }

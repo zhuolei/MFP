@@ -18,7 +18,6 @@ import {
   Empty
 } from 'antd';
 // import PageHeaderWrapper from '../../common/PageHeaderWrapper';
-import Result from '../../common/Result';
 import {createproject} from '../../redux/action/projects.action'
 import {connect} from 'react-redux';
 import './worklist.less';
@@ -27,19 +26,21 @@ import './worklist.less';
 // 属性的时候，将组件包一层withRouter，就可以拿到需要的路由信息
 import {withRouter} from 'react-router-dom';
 import CreateProjectForm from './createproject';
+import EditProjectForm from './editproject';
 import {getallusersinoneteam} from '../../redux/action/teamAuth.action'
 import {getprojects} from '../../redux/action/projects.action'
-const FormItem = Form.Item;
+
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
-const SelectOption = Select.Option;
-const { Search, TextArea } = Input;
+
+const { Search,  } = Input;
 
 class ProjectList extends PureComponent {
     state = { 
         visible: false, 
         done: false, 
         createProjectFormVisible: false,
+        editProjectFormVisible: false,
         projectlist: [],
         projectlist2: [] 
     };
@@ -47,14 +48,14 @@ class ProjectList extends PureComponent {
         super(props)
     }
     componentWillMount() {
-        const teamproject = this.props.initialValues.teamProject;
+        const teamproject = [...(this.props.initialValues.teamProject||[])];
         const projectlist =[];
         teamproject.map(i => {
             projectlist.push(i.project);
         })
         this.setState({
                 projectlist: [...(projectlist||[])],
-                projectlist2: [...(this.props.projects||[])]
+                // projectlist2: [...(this.props.projects||[])]
             })
     }
     componentDidMount(){
@@ -66,17 +67,18 @@ class ProjectList extends PureComponent {
         console.log(nextProps)
         if (nextProps.projects !== this.props.projects) {
             console.log(nextProps)
-            const teamproject = nextProps.initialValues.teamProject;
+            const teamProjectcopy = nextProps.initialValues||{}
+            const teamproject = [...(teamProjectcopy.teamProject||[])];
             const projectlist =[];
             teamproject.map(i => {
                 projectlist.push(i.project);
             })
             const list=[...(projectlist||[])]
 
-            this.setState({
-                // projectlist: [...(this.props.projects||[])],
-                projectlist2: [...(this.props.projects||[])]
-            })
+            // this.setState({
+            //     // projectlist: [...(this.props.projects||[])],
+            //     // projectlist2: [...(this.props.projects||[])]
+            // })
         }  
     }
     formLayout = {
@@ -141,7 +143,7 @@ class ProjectList extends PureComponent {
                 this.setState({
                     createProjectFormVisible: false,
                     projectlist: [...this.state.projectlist,res.data.project ],
-                })
+                }) 
             } else {
                 message.error('Error');
             }
@@ -158,10 +160,18 @@ class ProjectList extends PureComponent {
     // 显示编辑
     showEditModal = item => {
         this.setState({
-            visible: true,
+            editProjectFormVisible: true,
             current: item,
         });
     };
+    eidtProjectFormHandleCancel = () => {
+        this.setState({
+            editProjectFormVisible: false
+        })
+    }
+    eidtProjectFormHandleCreate = () => {
+
+    }
     // 显示delete
     showDeleteModal = (item) => {
         Modal.confirm({
@@ -268,8 +278,8 @@ class ProjectList extends PureComponent {
         </span>
         );
         const userlist =[];
-        
-        const teamuser = this.props.initialValues.teamUsers;
+        const initialValue = this.props.initialValues || {}
+        const teamuser = initialValue.teamUsers || [];
         teamuser.map(i => {
             let user = {};
             user.id = i.user.id
@@ -329,7 +339,7 @@ class ProjectList extends PureComponent {
                                     <a
                                         onClick={e => {
                                         e.preventDefault();
-                                        this.showEditModal(item);
+                                        this.showEditModal(item.id);
                                         }}
                                     >
                                         edit
@@ -342,9 +352,9 @@ class ProjectList extends PureComponent {
                                         >
                                         delete
                                      </a>,
-                                     // comment icon
-                                    // <IconText type="like-o" text="156" />, 
-                                    // <IconText type="message" text="2" />,
+                                    //  comment icon
+                                    <IconText type="like-o" text="156" />, 
+                                    <IconText type="message" text="2" />,
                                 ]}
                             extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
                         >
@@ -368,6 +378,13 @@ class ProjectList extends PureComponent {
                     onCancel={this.createProjectFormHandleCancel}
                     onCreate={this.createProjectFormHandleCreate}
                     userlist={userlist}
+                />
+            <EditProjectForm 
+                    wrappedComponentRef={(eidtProjectForm)=>{this.eidtProjectForm = eidtProjectForm;}}
+                    visible={this.state.editProjectFormVisible}
+                    onCancel={this.eidtProjectFormHandleCancel}
+                    onCreate={this.eidtProjectFormHandleCreate}
+                    projectId={this.state.current}
                 />
             </div>
             

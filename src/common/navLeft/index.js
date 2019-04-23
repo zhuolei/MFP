@@ -15,9 +15,9 @@ class NavLeft extends React.Component {
         teamlist:[],
     }
     componentDidMount() {
-        this.props.getTeams();  
-        const teams = this.props.getTeams(); 
-        console.log(this.state.teamlist)
+        // this.props.getTeams();  
+        // const teams = this.props.getTeams(); 
+        // console.log(this.state.teamlist)
     }
     componentWillReceiveProps(nextProps) {
         console.log("****")  
@@ -83,7 +83,19 @@ class NavLeft extends React.Component {
         //     console.log(item)
         // })
         // console.log(MenuConfig[1].children)
-        
+        //
+        const newMenu = {
+            title:'Users',
+            key:'/admin/users',
+            type: 'edit',
+        }
+        const userRole = this.props.loggedIn || {};
+        if(userRole.authorities.length > 1 && MenuConfig.length < 4) {
+            MenuConfig.push(newMenu);
+    
+        } else if (userRole.authorities.length == 1 && MenuConfig.length == 4){
+            MenuConfig.pop();
+        } 
         const menuTreeNode = this.renderMenu(MenuConfig);
         let currentKey = window.location.hash.replace(/#|\?.*$/g,'')
         this.setState({
@@ -142,4 +154,11 @@ class NavLeft extends React.Component {
         );
     }
 }
-export default connect(null,{getTeams, switchMenu})(NavLeft)
+
+const mapStateToProps = state => {
+    // console.log(state.switchMenu)
+    return {
+        loggedIn: state.loggedIn
+    }
+}
+export default connect(mapStateToProps,{getTeams, switchMenu})(NavLeft)

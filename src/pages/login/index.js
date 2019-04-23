@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import {login} from '../../redux/action/auth.action'
-import { Card, Form, Input, Button, message, Icon, Checkbox } from "antd";
+import { Card, Form, Input, Button, message, Icon } from "antd";
 import { getTeams } from '../../redux/action/teamAuth.action';
 import 'antd/dist/antd.css';
 import {FormWrapper} from './style';
@@ -98,7 +98,8 @@ class FormLogin extends React.Component{
                                 )
                             }
                         </FormItem>
-                        <FormItem>
+                        {/* 以后加回来 */}
+                        {/* <FormItem>
                             {
                                 getFieldDecorator('remember', {
                                     valuePropName:'checked',
@@ -108,7 +109,7 @@ class FormLogin extends React.Component{
                                 )
                             }
                             <a href="#" style={{float:'right'}}>Forget Password</a>
-                        </FormItem>
+                        </FormItem> */}
                         <FormItem >
                             <Button style={{width:'100%'}} type="primary" onClick={this.handleSubmit}>Login</Button>
                         </FormItem>

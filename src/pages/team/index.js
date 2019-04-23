@@ -1,7 +1,6 @@
 import React from 'react';
 import './index.less';
 import { Button, Card, Icon, Tooltip, Avatar, Modal, Form, Input, message, Row, Col, Spin } from 'antd';
-import numeral from 'numeral';
 import {createteam, getTeams, inviteUser, deleteTeam} from '../../redux/action/teamAuth.action';
 import {connect} from 'react-redux';
 import InviteMemberForm from './invitemember';
@@ -30,12 +29,18 @@ class TeamProject extends React.Component {
     componentDidMount() {
         if(!this.props.teams) {
             this.props.getTeams();
-            // console.log(this.props.teams); 值为Null
+            console.log(this.props.teams); //值为Null
+            this.setState({
+                teamlist: ['',...(this.props.teams||[])]
+            })
             // this.setState({
             //     teamlist: [...(this.props.teams||[])]
             // })
             // console.log(this.props.getTeams())
         }
+        this.setState({
+            teamlist: ['',...(this.props.teams||[])]
+        })
         
     }
     //负责 初始化接受新的props
@@ -206,7 +211,15 @@ class TeamProject extends React.Component {
         //     listcopy.push(c)
         // })
         // list.map()
+        const Loading = () => (
+            <Card>
+                <Row type="flex" justify="center">
+                <Spin />
+                </Row>
+            </Card>
+        )
         return (
+            (this.props.teams !== null ? (
             <div className='cardList'>
                 {/* <Card>
                 <div><pre>{JSON.stringify(list)}</pre></div>
@@ -226,9 +239,9 @@ class TeamProject extends React.Component {
                 <Tooltip title="Invite"  onClick={this.showInviteModal.bind(this, index)}>
                     <Icon type="team" />
                 </Tooltip>,
-                <Tooltip title="Edit">
-                    <Icon type="edit" />
-                </Tooltip>,
+                // <Tooltip title="Edit">
+                //     <Icon type="edit" />
+                // </Tooltip>,
                 <NavLink to={`/admin/project/detail/${item.id}`}>
                 <Tooltip title="Project">
                     <Icon type="project" />
@@ -304,7 +317,8 @@ class TeamProject extends React.Component {
                 </Col>
                 </Row>
                 </Modal>
-            </div>
+            </div>) : <Loading />
+            )
         )
     }
 }

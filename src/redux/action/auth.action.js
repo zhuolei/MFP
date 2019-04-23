@@ -8,6 +8,7 @@ export const LOGOUT = 'LOGOUT';
 export const REGISTER = 'REGISTER';
 export const SET_CURRENT_USER= 'SET_CURRENT_USER';
 export const CREATE_TEAM = 'CREATE_TEAM';
+export const UPDATE_USER = 'UPDATE_USER';
 export function register(newUser, callback) {
   // try {
   //   axios.post(`${API_URL}/users/register`, newUser);
@@ -49,7 +50,17 @@ export function login(user, callback) {
     payload: promise
   }
 }
-
+export function updateuser(user, callback) {
+  const promise = axios.post(`${API_URL}/users/update`, user, {withCredentials: true})
+    .then(res => {
+      callback(res);
+      return res;
+    });
+  return {
+    type: UPDATE_USER,
+    payload: promise
+  }
+}
 export function logout(callback) {
   const promise = axios.post(`${API_URL}/logout`, {withCredentials: true})
     .then(res => {

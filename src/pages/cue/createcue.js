@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Form, Select, Input, Row, Col, DatePicker, Avatar, Checkbox,TimePicker } from 'antd';
 import moment from 'moment';
-
+const { TextArea } = Input;
 const { Option } = Select;
 const FormItem = Form.Item;
 const {RangePicker } = DatePicker;
@@ -154,7 +154,7 @@ class CreateCue extends React.Component{
                         label="Out Time"
                         >
                         {getFieldDecorator('outtime', {
-                            initialValue: moment('01:00:00','HH:mm:ss'),
+                            initialValue: moment('00:10:00','HH:mm:ss'),
                         rules: [{ type: 'object', required: true, message: 'Please select time!' }],
                         })(
                             <TimePicker />
@@ -167,7 +167,10 @@ class CreateCue extends React.Component{
                     <FormItem 
                         label="Cue No." >
                         {getFieldDecorator('cuenumber', {
-                            rules: [{ required: true, message: 'Please input cuenumber!' }],
+                            rules: [{ 
+                                // required: true, 
+                                // message: 'Please input cuenumber!' 
+                            }],
                         })(
                             <Input />
                         )}
@@ -179,7 +182,8 @@ class CreateCue extends React.Component{
                         {getFieldDecorator('version', {
                             rules: [
                             { 
-                                required: true, message: 'Please input Version!' 
+                                // required: true, 
+                                message: 'Please input Version!' 
                             }],
                         })(
                             <Input />
@@ -192,7 +196,8 @@ class CreateCue extends React.Component{
                         {getFieldDecorator('scene', {
                             rules: [
                             { 
-                                required: true, message: 'Please input scene!' 
+                                // required: true,
+                                 message: 'Please input scene!' 
                             }],
                         })(
                             <Input />
@@ -205,7 +210,8 @@ class CreateCue extends React.Component{
                         {getFieldDecorator('temp', {
                             rules: [
                             { 
-                                required: true, message: 'Please input temp!' 
+                                // required: true, 
+                                message: 'Please input temp!' 
                             }],
                         })(
                             <Input />
@@ -216,7 +222,8 @@ class CreateCue extends React.Component{
                         <FormItem  label="Theme" hasFeedback>
                         {getFieldDecorator('theme', {
                             rules: [{ 
-                                required: true, message: 'Please select a theme' 
+                                // required: true, 
+                                message: 'Please select a theme' 
                             }],
                         })(
                             <Select placeholder="Please select a theme">
@@ -234,7 +241,8 @@ class CreateCue extends React.Component{
                         <FormItem  label="Use" hasFeedback>
                         {getFieldDecorator('use', {
                             rules: [{ 
-                                required: true, message:'please select'  
+                                // required: true, 
+                                message:'please select'  
                             }],
                         })(
                             <Select placeholder="Please select">
@@ -253,7 +261,8 @@ class CreateCue extends React.Component{
                         <FormItem  label="Priority" hasFeedback>
                         {getFieldDecorator('priority', {
                             rules: [{ 
-                                required: true, message: 'Please select a priority' 
+                                // required: true, 
+                                message: 'Please select a priority' 
                             }],
                         })(
                             <Select placeholder="Please select a priority">
@@ -268,7 +277,8 @@ class CreateCue extends React.Component{
                         <FormItem  label="Status" hasFeedback>
                         {getFieldDecorator('status', {
                             rules: [{ 
-                                required: true, message: 'Please select a status' 
+                                // required: true, 
+                                message: 'Please select a status' 
                             }],
                         })(
                             <Select placeholder="Please select a lane">
@@ -294,7 +304,8 @@ class CreateCue extends React.Component{
                         <FormItem  label="Sub Status" hasFeedback>
                         {getFieldDecorator('substatus', {
                             rules: [{ 
-                                required: true, message: 'Please select a substatus' 
+                                // required: true, 
+                                message: 'Please select a substatus' 
                             }],
                         })(
                             <Select placeholder="Please select a lane">
@@ -310,6 +321,13 @@ class CreateCue extends React.Component{
                         </Col>
                     </Row>
                     <Row gutter={8}>
+                    <FormItem  
+                        label="Notes" 
+                        height={100}>
+                        {getFieldDecorator('notes')(
+                            <TextArea rows={4} />
+                        )}
+                    </FormItem>
                     
                     </Row>
 

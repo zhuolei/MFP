@@ -13,8 +13,8 @@ const persistConfig = {
     storage: Storage,
     // stateReconciler: autoMergeLevel2, // 查看 'Merge Process' 部分的具体情况
     stateReconciler: autoMergeLevel2,
-    whitelist: ['loggedIn','teams'],
-    blacklist: ['projects','project'],
+    whitelist: ['loggedIn','teams','projects'],
+    blacklist: [ 'project','picture','cue'],
   };
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);

@@ -5,7 +5,7 @@ import './index.less'
 import Util from '../../utils/utils'
 import {logout} from '../../redux/action/auth.action'
 import { collapseMenu } from '../../redux/action/switchMenu.action'
-import {bindActionCreators} from 'redux';
+
 class InnerHeader extends Component{
     
     constructor(props) {
@@ -62,6 +62,7 @@ class InnerHeader extends Component{
           });
     }
     render(){
+        const name = this.props.loggedIn || {}
         return(
             <div className="header">
                 <Row className="header-top">
@@ -70,7 +71,7 @@ class InnerHeader extends Component{
                             <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
                         </Button>
                         <span className="wrapper">
-                            <span>Welcome，{this.props.loggedIn.username}</span>
+                            <span>Welcome，{name.username}</span>
                             <a onClick={this.handleLogout}>Log out</a>
                         </span>
                     </Col>

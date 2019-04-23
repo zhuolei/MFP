@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { Form, Input, Upload, Select, Button, Card } from 'antd';
-
+import { Form, Input, message, Select, Button, Card } from 'antd';
+import {connect} from 'react-redux';
 import './BaseView.less';
-
+import {updateuser} from './../../redux/action/auth.action';
 // import PhoneView from './PhoneView';
 // import { getTimeDistance } from '@/utils/utils';
 
@@ -18,13 +18,13 @@ const AvatarView = ({ avatar }) => (
     <div className='avatar'>
       <img src={avatar} alt="avatar" />
     </div>
-    <Upload fileList={[]}>
+    {/* <Upload fileList={[]}>
       <div className='button_view'>
         <Button icon="upload">
           Change avatar
         </Button>
       </div>
-    </Upload>
+    </Upload> */}
   </Fragment>
 );
 
@@ -46,23 +46,9 @@ const currentUser1 = {
   email: '1@gmail.com',
   username: 'leo',
 };
+
 class BaseView extends Component {
-  componentDidMount() {
-    this.setBaseInfo();
-  }
-
   
-  // 一开始的时候加载user信息
-
-  setBaseInfo = () => {
-    const { currentUser, form } = this.props;
-    Object.keys(form.getFieldsValue()).forEach(key => {
-      const obj = {};
-      obj[key] = currentUser1[key] || null;
-      form.setFieldsValue(obj);
-    });
-  };
-
   getAvatarURL() {
     const { currentUser } = this.props;
     if (currentUser1.avatar) {
@@ -75,37 +61,57 @@ class BaseView extends Component {
   getViewDom = ref => {
     this.view = ref;
   };
+  handleSubmit =(e)=> {
+    e.preventDefault();
 
+    this.props.form.validateFields((err, fieldsValue) => {
+      if (err) {
+        return;
+      }
+      const value = {}
+      const loggedIn = this.props.loggedIn || {}
+      value.password = this.props.form.getFieldsValue();
+      value.username = loggedIn.username;
+      value.email = loggedIn.email;
+      this.props.updateuser(value,(res) => {
+        if (res.data.success) {
+            message.success('success');
+        } else {
+            message.error('Error');
+        }
+      })
+    })
+    
+  }
   render() {
     const {
-      form: { getFieldDecorator },
+      form: { getFieldDecorator }, handleSubmit
     } = this.props;
+    const loggedIn = this.props.loggedIn || {}
     return (
-      <Card>
+      <Card style={{height: '400px'}}>
       <div className='baseView' >
         <div className='left'>
-          <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark>
-            <FormItem label='Email'>
-              {getFieldDecorator('email', {
+          <Form layout="vertical" hideRequiredMark>
+            <FormItem label='User Name'>
+              <span><strong>{loggedIn.username}</strong></span>
+            </FormItem>
+            <FormItem label='User Email'>
+              <span><strong>{loggedIn.email}</strong></span>
+            </FormItem>
+            {/* <FormItem label='New password'>
+              {getFieldDecorator('password', {
                 rules: [
                   {
                     required: true,
-                    message: 'please input your email',
-                  },
+                    message: 'please input new password',
+                  },{
+                    min: 6,
+                  }
                 ],
               })(<Input />)}
-            </FormItem>
-            <FormItem label='Username'>
-              {getFieldDecorator('username', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'please input your name',
-                  },
-                ],
-              })(<Input />)}
-            </FormItem>
-            <FormItem label='Profile'>
+            </FormItem> */}
+            {/* <FormItem label='Profile'>
               {getFieldDecorator('profile', {
                 rules: [
                   {
@@ -119,7 +125,7 @@ class BaseView extends Component {
                   rows={4}
                 />
               )}
-            </FormItem>
+            </FormItem> */}
             {/* <FormItem label={formatMessage({ id: 'app.settings.basic.phone' })}>
               {getFieldDecorator('phone', {
                 rules: [
@@ -131,9 +137,9 @@ class BaseView extends Component {
                 ],
               })(<PhoneView />)}
             </FormItem> */}
-            <Button type="primary">
+            {/* <Button type="primary" onClick= {this.handleSubmit}>
              Update Informatio
-            </Button>
+            </Button> */}
           </Form>
         </div>
         <div className='right'>
@@ -144,5 +150,11 @@ class BaseView extends Component {
     );
   }
 }
+
 const BaseViewForm = Form.create()(BaseView);
-export default BaseViewForm;
+const mapStateToProps = state => {
+  return {
+    loggedIn : state.loggedIn,
+  }
+}
+export default connect(mapStateToProps,{updateuser})(BaseViewForm);

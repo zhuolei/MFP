@@ -1,6 +1,5 @@
 import React from 'react';
 import { Modal, Form, Select, Input, Row, Col, DatePicker, Avatar, Checkbox } from 'antd';
-import {moment} from 'moment';
 
 const { Option } = Select;
 const FormItem = Form.Item;
